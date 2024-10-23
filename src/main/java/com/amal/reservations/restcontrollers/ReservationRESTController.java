@@ -15,7 +15,7 @@ import com.amal.reservations.entities.Reservation;
 import com.amal.reservations.service.ReservationService;
 
 @RestController
-@RequestMapping("/api")  // Specify the exact path for the endpoint
+@RequestMapping("/api") 
 @CrossOrigin
 public class ReservationRESTController {
 

@@ -38,8 +38,10 @@ public class SecurityConfig {
 		 }
 		 }).and()
 	 .authorizeHttpRequests()
-	 //consulter tous les produits
-	 .requestMatchers("/api/all/**").hasAnyAuthority("ADMIN","USER")
+	 .anyRequest().permitAll();
+		
+	//consulter tous les produits
+	 /*.requestMatchers("/api/all/**").hasAnyAuthority("ADMIN","USER")
 	 //consulter un produit par son id
 	 .requestMatchers(HttpMethod.GET,"/api/getbyid/**")
 	.hasAnyAuthority("ADMIN","USER")
@@ -52,7 +54,7 @@ public class SecurityConfig {
 	.requestMatchers(HttpMethod.DELETE,"/api/delres/**").hasAuthority("ADMIN")
 	 .anyRequest().authenticated().and()
 	 .addFilterBefore(new
-	JWTAuthorizationFilter(),BasicAuthenticationFilter.class);
+	JWTAuthorizationFilter(),BasicAuthenticationFilter.class);*/
 	return http.build();
 	}
 
