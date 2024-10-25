@@ -36,6 +36,7 @@ public class TypeRestController {
 	}
 	@RequestMapping(path="/addtype" ,method = RequestMethod.POST)
 	//@PostMapping("/addtype")
+	
 	public Type createType(@RequestBody Type type) {
 	return typeRepository.save(type);
 	}

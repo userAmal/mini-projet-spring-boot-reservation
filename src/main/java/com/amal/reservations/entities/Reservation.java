@@ -1,6 +1,7 @@
 package com.amal.reservations.entities;
 
-import java.util.Date; 
+import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,16 +28,13 @@ public class Reservation {
 	private Date datefin;
 	@ManyToOne
 	private Type type;
-	  @OneToOne 
-	  private Image image; 
+	 /* @OneToOne 
+	  private Image image; */
+	 @OneToMany 
+	 (mappedBy = "reservation") 
+	    private List<Image> images;
+	 private String imagePath; 
 	
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
-	}
 	public Type getType() {
 		return type;
 	}
@@ -92,6 +91,7 @@ public class Reservation {
 		return "Reservation [idReservation=" + idReservation + ", nomclient=" + nomclient + ", prixsejour=" + prixsejour
 				+ ", datedebut=" + datedebut + ", datefin=" + datefin + "]";
 	}
+	
 
 }
  

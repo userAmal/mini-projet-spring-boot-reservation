@@ -1,5 +1,8 @@
 package com.amal.reservations.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,21 +10,54 @@ import org.springframework.stereotype.Service;
 
 import com.amal.reservations.entities.Reservation;
 import com.amal.reservations.entities.Type;
+import com.amal.reservations.repos.ImageRepository;
 import com.amal.reservations.repos.ReservationRepository;
 
 @Service
 public class ReservationServiceImpl implements ReservationService{
 	@Autowired
 	ReservationRepository reservationRepository;
+	@Autowired
+	ImageRepository imageRepository;
 	@Override
 	public Reservation saveReservation(Reservation r) {
 		return reservationRepository.save(r);
 	}
 
-	@Override
+	/*@Override
 	public Reservation updateReservation(Reservation r) {
 		return reservationRepository.save(r);
-	}
+	}*/
+	@Override 
+	 public Reservation updateReservation(Reservation newReservation) { 
+	  //Long oldResImageId = 
+	//this.getReservation(r.getIdReservation()).getImage().getIdImage(); 
+	 // Long newResImageId = r.getImage().getIdImage(); 
+	   
+	  //Reservation resUpdated = reservationRepository.save(r); 
+	   
+	 // if (oldResImageId != newResImageId) //si l'image a été modifiée 
+	   //imageRepository.deleteById(oldResImageId); 
+	   
+	  //return resUpdated; 
+		// Get the existing instrument with its images
+
+		Reservation existingInstrument = reservationRepository.findById(newReservation.getIdReservation())
+
+	            .orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+
+
+	    // Preserve the existing images
+
+	    newReservation.setImages(existingInstrument.getImages());
+
+
+
+	    // Save the updated reservation with preserved images
+
+	    return reservationRepository.save(newReservation);
+	 }
 
 	@Override
 	public void deleteReservation(Reservation r) {
@@ -31,7 +67,14 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public void deleteReservationById(Long id) {
-		reservationRepository.deleteById(id);
+		Reservation p = getReservation(id); 
+		//suuprimer l'image avant de supprimer le produit 
+		try { 
+		Files.delete(Paths.get(System.getProperty("user.home")+"/images/"+p.getImagePath())); 
+		} catch (IOException e) { 
+		e.printStackTrace(); 
+		}  
+		reservationRepository.deleteById(id); 
 		
 	}
 
